@@ -1,0 +1,170 @@
+﻿@model prueba.Models.FormsViewModel.PaqueteViewModel
+
+<h2>@ViewBag.Title</h2>
+<div class="row">
+    <div class="col-md-12">
+        @using (Html.BeginForm("Edit", "Paquete", FormMethod.Post, new { role = "form", @class = "" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationMessage("error", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(d => d.Descripcion)
+                @Html.TextBoxFor(d => d.Descripcion, new { @class = "form-control" })
+                <span>@Html.ValidationMessage("Descripcion", new { @class = "text-danger" })</span>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(d => d.Precio)
+                @Html.TextBoxFor(d => d.Precio, new { @class = "form-control", @type = "number", @min = 0, @step = 0.01 })
+            </div>
+            <div class="form-group">
+                <label for="CantDias">Cantidad de Dias</label>
+                @Html.TextBoxFor(d => d.CantDias, new { @class = "form-control", @type = "number", required = string.Empty })
+            </div>
+            <div class="form-group">
+                <label for="FechaViaje">Fecha de Viaje</label>
+                @Html.TextBoxFor(d => d.FechaViaje, new { @class = "form-control", @type = "date", required = string.Empty })
+            </div>
+            <div class="form-group">
+                <label for="Lugares">Cantidad de Lugares</label>
+                @*<input class="form-control" id="Lugares" name="Lugares" type="number" min="1" max="10" required />*@
+                @Html.TextBoxFor(d => d.Lugares, new { @class = "form-control", @type = "number", required = string.Empty, @min = 1, @max = 10 })
+            </div>
+            <div class="form-group">
+                <label for="Nacional">Destino</label>
+                <select class="form-control" name="Nacional" id="Nacional">
+                    @if (ViewBag.ThisRegion)
+                    {
+                        <option value="1" selected>Nacional</option>
+                        <option value="0">Internacional</option>
+                    }
+                    else
+                    {
+                        <option value="0" selected>Internacional</option>
+                        <option value="1">Nacional</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="Cotizacion">Cotizacion</label>
+                @Html.TextBoxFor(d => d.Cotizacion, new { @class = "form-control", @type = "number", @step = 0.01, @min = 0, required = string.Empty })
+                @*<input class="form-control" id="Cotizacion" name="Cotizacion" type="number" min="0" step="0.01" required />*@
+            </div>
+            <div class="form-group">
+                <label for="Impuesto">Impuesto</label>
+                @Html.TextBoxFor(d => d.Impuesto, new { @class = "form-control", @type = "number", @min = 0, @step = 0.01, required = string.Empty })
+                @*<input class="form-control" id="Impuesto" name="Impuesto" type="number" min="0" step="0.01" required />*@
+            </div>
+            <div class="form-group">
+                <label for="Cuotas">Cuotas</label>
+                @*<input class="form-control" id="Cuotas" name="Cuotas" type="number" min="0" step="3" max="12" required />*@
+                <select class="form-control" name="Cuotas" id="Cuotas">
+                    <option value="0">0 cuotas</option>
+                    <option value="2">2 cuotas</option>
+                    <option value="3">3 cuotas</option>
+                    <option value="4">4 cuotas</option>
+                    <option value="6">6 cuotas</option>
+                    @if (ViewBag.ThisRegion)
+                    {
+                        <option value="12">12 cuotas</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="Visa">Visa</label>
+                <select class="form-control" name="Visa" id="Visa">
+                    @if (ViewBag.ThisVisa)
+                    {
+                        <option value="1" selected>Requerido</option>
+                        <option value="0">No Requerido</option>
+                    }
+                    else
+                    {
+                        <option value="1">Requerido</option>
+                        <option value="0" selected>No Requerido</option>
+                    }
+
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="Estado">Estado</label>
+                <select class="form-control" name="Estado" id="Estado">
+                    @if (ViewBag.ThisEstado)
+                    {
+                        <option value="1" selected>Vigente</option>
+                        <option value="0">No Vigente</option>
+                    }
+                    else
+                    {
+                        <option value="1">Vigente</option>
+                        <option value="0" selected>No Vigente</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="IdPais">Pais</label>
+                <select class="form-control" name="IdPais" id="IdPais">
+                    @foreach (var p in ViewBag.Paises)
+                    {
+                        if (ViewBag.ThisPais == p.Id)
+                        {
+                            <option value="@p.Id" selected>@p.Descripcion</option>
+                        }
+                        else
+                        {
+                            <option value="@p.Id">@p.Descripcion</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="IdProvincia">Provincia</label>
+                <select class="form-control" name="IdProvincia" id="IdProvincia">
+                    @foreach (var p in ViewBag.Provincias)
+                    {
+                        if (ViewBag.ThisProvincia == p.Id)
+                        {
+                            <option value="@p.Id" selected>@p.Descripcion</option>
+                        }
+                        else
+                        {
+                            <option value="@p.Id">@p.Descripcion</option>
+                        }
+                    }
+                </select>
+            </div>
+            <input type="number" hidden value="@ViewBag.ThisProvincia" name="aux" id="aux"/>
+            <button class="btn btn-block btn-success" type="submit">Guardar Cambios</button>
+        }
+    </div>
+</div>
+
+<script>
+    var cPais = document.getElementById("IdPais");
+    var aux = document.getElementById("aux");
+
+    cPais.addEventListener("change", Cargar);
+    Cargar();
+    function Cargar() {
+        fetch("@Url.Content("~/Paquete/ProvinciaList")" + "?id=" + cPais.value)
+            .then(
+                function (result) {
+                    if (result.ok) {
+                        return result.json();
+                    }
+                })
+            .then(function (data) {
+                cProvincia = document.getElementById("IdProvincia");
+                cProvincia.innerHTML = "";
+                data.forEach(function (element) {
+                    let opt = document.createElement("option");
+                    opt.appendChild(document.createTextNode(element.Descripcion));
+                    opt.value = element.Id;
+                    if (aux.value == element.Id) {
+                        opt.selected = true;
+                    }
+                    cProvincia.appendChild(opt)
+                })
+            });
+    }
+
+</script>

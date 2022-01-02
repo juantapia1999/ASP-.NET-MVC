@@ -1,0 +1,97 @@
+﻿@model List<prueba.Models.TableViewModel.PaqueteTableViewModel>
+@{
+    ViewBag.Title = "Lista de Paquetes";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<hr />
+<button class="btn btn-primary btn-block" onclick="document.location.href='@Url.Content("~/Paquete/Add")'">Agregar Paquete</button>
+<hr />
+<div class="table-responsive">
+    <table class="table table-bordered table-hover">
+        <thead style="color:white;background-color:black">
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Descripcion</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Cotizacion</th>
+                <th scope="col">Cantidad de Dias</th>
+                <th scope="col">Fecha de Viaje</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Cantidad de Lugares</th>
+                <th scope="col">Destino</th>
+                <th scope="col">Impuesto</th>
+                <th scope="col">Visa</th>
+                <th scope="col">Cuotas</th>
+                <th scope="col">Pais</th>
+                <th scope="col">Provincia</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th scope="row">@item.Id</th>
+                    <td>@item.Descripcion</td>
+                    <td>$ @item.Precio</td>
+                    <td>USD$ @item.Cotizacion</td>
+                    <td>@item.CantDias</td>
+                    <td>@item.FechaViaje.ToShortDateString()</td>
+                    @if (item.Estado)
+                    {
+                        <td>Activo</td>
+                    }
+                    else
+                    {
+                        <td>Inactivo</td>
+                    }
+                    <td>@item.Lugares</td>
+                    @if (item.Nacional)
+                    {
+                        <td>Nacional</td>
+                        <td>$ @item.Impuesto</td>
+                    }
+                    else
+                    {
+                        <td>Internacional</td>
+                        <td>@item.Impuesto %</td>
+                    }
+                    @if (@item.Visa)
+                    {
+                        <td>Requerido</td>
+                    }
+                    else
+                    {
+                        <td>No Requerido</td>
+                    }
+                    <td>@item.Cuotas</td>
+                    <td>@item.DescripcionPais</td>
+                    <td>@item.DescripcionProvincia</td>
+                    <td>
+                        <div class="btn-group btn-group-xs btn-group-vertical" role="group">
+                            <button class="btn btn-warning" onclick="document.location.href='@Url.Content("~/Paquete/Edit/"+item.Id)'">Editar</button>
+                            <button class="btn btn-danger" onclick="jsDelete(@item.Id)">Eliminar</button>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function jsDelete(id) {
+        if (confirm("¿Esta seguro de querer eliminar?")) {
+            url = "@Url.Content("~/Paquete/Delete")" + "/" + id;
+            $.post(url, function (data) {
+                if (data == "1") {
+                    document.location.href = "@Url.Content("~/Paquete/")";
+                } else {
+                    alert("Ocurrio un error");
+                }
+            });
+        }
+    }
+</script>

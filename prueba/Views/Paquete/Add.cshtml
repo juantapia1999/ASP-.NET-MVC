@@ -1,0 +1,108 @@
+﻿@model prueba.Models.FormsViewModel.PaqueteViewModel
+@{
+    ViewBag.Title = "Agregar Paquete";
+}
+
+<h2>@ViewBag.Title</h2>
+<div class="row">
+    <div class="col-md-12">
+        @using (Html.BeginForm("Add", "Paquete", FormMethod.Post, new { role = "form", @class = "" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationMessage("error", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(d => d.Descripcion)
+                @Html.TextBoxFor(d => d.Descripcion, new { @class = "form-control" })
+                <span>@Html.ValidationMessage("Descripcion", new { @class = "text-danger" })</span>
+            </div>
+            <div class="form-group">
+                <label for="Precio">Precio</label>
+                <input class="form-control" id="Precio" name="Precio" type="number" min="0" step="0.01" required />
+            </div>
+            <div class="form-group">
+                <label for="CantDias">Cantidad de Dias</label>
+                <input class="form-control" id="CantDias" name="CantDias" type="number" min="0" required />
+            </div>
+            <div class="form-group">
+                <label for="FechaViaje">Fecha de Viaje</label>
+                <input class="form-control" id="FechaViaje" name="FechaViaje" type="date" required />
+            </div>
+            <div class="form-group">
+                <label for="Lugares">Cantidad de Lugares</label>
+                <input class="form-control" id="Lugares" name="Lugares" type="number" min="1" max="10" required />
+            </div>
+            <div class="form-group">
+                <label for="Nacional">Destino</label>
+                <select class="form-control" name="Nacional" id="Nacional">
+                    <option value="1">Nacional</option>
+                    <option value="0">Internacional</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="Cotizacion">Cotizacion</label>
+                <input class="form-control" id="Cotizacion" name="Cotizacion" type="number" min="0" step="0.01" required />
+            </div>
+            <div class="form-group">
+                <label for="Impuesto">Impuesto</label>
+                <input class="form-control" id="Impuesto" name="Impuesto" type="number" min="0" step="0.01" required />
+            </div>
+            <div class="form-group">
+                <label for="Cuotas">Cuotas</label>
+                <input class="form-control" id="Cuotas" name="Cuotas" type="number" min="0" step="3" max="12" required />
+            </div>
+            <div class="form-group">
+                <label for="Visa">Visa</label>
+                <select class="form-control" name="Visa" id="Visa">
+                    <option value="1">Requerido</option>
+                    <option value="0">No Requerido</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="IdPais">Pais</label>
+                <select class="form-control" name="IdPais" id="IdPais">
+                    @foreach (var p in ViewBag.Paises)
+                    {
+                        <option value="@p.Id">@p.Descripcion</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="IdProvincia">Provincia</label>
+                <select class="form-control" name="IdProvincia" id="IdProvincia">
+                    @foreach (var p in ViewBag.Provincias)
+                    {
+                        <option value="@p.Id">@p.Descripcion</option>
+                    }
+                </select>
+            </div>
+            <button class="btn btn-block btn-success" type="submit">Agregar</button>
+        }
+    </div>
+</div>
+
+<script>
+    var cPais = document.getElementById("IdPais");
+
+    cPais.addEventListener("change", Cargar);
+    Cargar();
+    function Cargar() {
+        fetch("@Url.Content("~/Paquete/ProvinciaList")" + "?id=" + cPais.value)
+            .then(
+                function (result) {
+                    if (result.ok) {
+                        return result.json();
+                    }
+                })
+            .then(function (data) {
+                cProvincia = document.getElementById("IdProvincia");
+                cProvincia.innerHTML = "";
+                data.forEach(function (element) {
+                    let opt = document.createElement("option");
+                    opt.appendChild(document.createTextNode(element.Descripcion));
+                    opt.value = element.Id;
+                    cProvincia.appendChild(opt)
+                })
+            });
+    }
+
+</script>

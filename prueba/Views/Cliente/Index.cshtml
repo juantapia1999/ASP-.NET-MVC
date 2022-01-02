@@ -1,0 +1,63 @@
+﻿@model List<prueba.Models.TableViewModel.ClienteTableViewModel>
+@{
+    ViewBag.Title = "Lista Clientes";
+}
+
+<h2>@ViewBag.Title</h2>
+<hr />
+<button class="btn btn-primary btn-block" onclick="document.location.href='@Url.Content("~/Cliente/Add")'">Agregar Cliente</button>
+<hr />
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover">
+        <thead style="color:white;background-color:black">
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Apellido</th>
+                <th scope="col">DNI</th>
+                <th scope="col">Direccion</th>
+                <th scope="col">Telefono</th>
+                <th scope="col">Nacionalidad</th>
+                <th scope="col">Empresa</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th scope="row">@item.Id</th>
+                    <td>@item.Nombre</td>
+                    <td>@item.Apellido</td>
+                    <td>@item.Dni</td>
+                    <td>@item.Direccion</td>
+                    <td>@item.Telefono</td>
+                    <td>@item.DescripcionPais</td>
+                    <td>@item.DescripcionEmpresa</td>
+                    <td>
+                        <div class="btn-group btn-group-xs btn-group-vertical" role="group">
+                            <button class="btn btn-warning" onclick="document.location.href='@Url.Content("~/Cliente/Edit/"+item.Id)'">Editar</button>
+                            <button class="btn btn-danger" onclick="jsDelete(@item.Id)">Eliminar</button>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function jsDelete(id) {
+        if (confirm("¿Esta seguro de querer eliminar?")) {
+            url = "@Url.Content("~/Cliente/Delete")" + "/" + id;
+            $.post(url, function (data) {
+                if (data == "1") {
+                    document.location.href = "@Url.Content("~/Cliente/")";
+                } else {
+                    alert("Ocurrio un error");
+                }
+            });
+        }
+    }
+</script>

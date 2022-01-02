@@ -1,0 +1,35 @@
+﻿@model List<prueba.Models.TableViewModel.FacturaTableViewModel>
+@{
+    ViewBag.Title = "Lista de Facturas";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<hr />
+<button class="btn btn-primary btn-block" onclick="document.location.href='@Url.Content("~/Factura/Add")'">Agregar Factura</button>
+<hr />
+<div class="table-responsive">
+    <table class="table table-bordered table-hover">
+        <thead style="color:white;background-color:black">
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Paquete</th>
+                <th scope="col">Monto Total</th>
+                <th scope="col">Facha de Venta</th>
+                <th scope="col">Cliente</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.DescripcionPaquete</td>
+                    <td>@item.Monto.ToString("0.##")</td>
+                    <td>@item.Fecha</td>
+                    <td>@item.NombreCliente @item.ApellidoCliente - @item.DniCliente</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

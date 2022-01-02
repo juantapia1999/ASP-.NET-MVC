@@ -1,0 +1,45 @@
+﻿@model prueba.Models.FormsViewModel.EmpresaViewModel
+@{
+    ViewBag.Title = "Editar Empresa";
+    List<prueba.Models.TableViewModel.RazonSocialTableViewModel> listaRazon = ViewBag.RazonesSociales;
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        @using (Html.BeginForm("Edit", "Empresa", FormMethod.Post, new { role = "form", @class = "" }))
+        {
+            @Html.HiddenFor(d => d.Id)
+            @Html.AntiForgeryToken()
+            @Html.ValidationMessage("error", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(d => d.Descripcion)
+                @Html.TextBoxFor(d => d.Descripcion, new { @class = "form-control" })
+                <span>@Html.ValidationMessage("Descripcion", new { @class = "text-danger", @minLength = 3, required = string.Empty })</span>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(d => d.Cuit)
+                @Html.TextBoxFor(d => d.Cuit, new { @class = "form-control", @min = 0, @type = "number", required = string.Empty })
+            </div>
+            <div class="form-group">
+                <label for="RazonSocialId">Razon Social</label>
+                <select class="form-control" name="RazonSocialId" id="RazonSocialId">
+                    @foreach (var p in listaRazon)
+                    {
+                        if (p.Id == ViewBag.ThisRazon)
+                        {
+                            <option selected value="@p.Id">@p.Descripcion</option>
+                        }
+                        else
+                        {
+                            <option value="@p.Id">@p.Descripcion</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <button class="btn btn-block btn-success" type="submit">Guardar Cambios</button>
+        }
+    </div>
+</div>

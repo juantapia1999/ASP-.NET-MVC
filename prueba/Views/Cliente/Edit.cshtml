@@ -1,0 +1,72 @@
+﻿@model prueba.Models.FormsViewModel.ClienteViewModel
+@{
+    ViewBag.Title = "Editar Cliente";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        @using (Html.BeginForm("Edit", "Cliente", FormMethod.Post, new { role = "form", @class = "" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationMessage("error", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(d => d.Nombre)
+                @Html.TextBoxFor(d => d.Nombre, new { @class = "form-control", @minLength = 3, required = string.Empty })
+                <span>@Html.ValidationMessage("Descripcion", new { @class = "text-danger" })</span>
+            </div>
+            <div class="form-group">
+                <label for="Apellido">Apellido</label>
+                @Html.TextBoxFor(d => d.Apellido, new { @class = "form-control", @maxLength = 30, @minLength = 3, required = string.Empty })
+            </div>
+            <div class="form-group">
+                <label for="Dni">DNI</label>
+                @Html.TextBoxFor(d => d.Dni, new { @class = "form-control", @type = "number", @maxLength = 30, @minLength = 3, required = string.Empty })
+            </div>
+            <div class="form-group">
+                <label for="Direccion">Direccion</label>
+                @Html.TextBoxFor(d => d.Direccion, new { @class = "form-control", @maxLenght = 50, required = string.Empty, @minLength = 4 })
+            </div>
+            <div class="form-group">
+                <label for="Telefono">Telefono</label>
+                @Html.TextBoxFor(d => d.Telefono, new { @class = "form-control", @type = "number", required = string.Empty, @min = 0 })
+            </div>
+            <div class="form-group">
+                <label for="IdPais">Pais</label>
+                <select class="form-control" name="IdPais" id="IdPais">
+                    @foreach (var p in ViewBag.Paises)
+                    {
+                        if (ViewBag.ThisPais == p.Id)
+                        {
+                            <option value="@p.Id" selected>@p.Descripcion</option>
+                        }
+                        else
+                        {
+                            <option value="@p.Id">@p.Descripcion</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="IdEmpresa">Empresa</label>
+                <select class="form-control" name="IdEmpresa" id="IdEmpresa">
+                    <option value="0">No Aplica</option>
+                    @foreach (var p in ViewBag.Empresas)
+                    {
+                        if (ViewBag.ThisEmpresa != null && ViewBag.ThisEmpresa == p.Id)
+                        {
+                            <option value="@p.Id" selected>@p.Descripcion</option>
+
+                        }
+                        else
+                        {
+                            <option value="@p.Id">@p.Descripcion</option>
+                        }
+                    }
+                </select>
+            </div>
+            <button class="btn btn-block btn-success" type="submit">Guardar Cambios</button>
+        }
+    </div>
+</div>

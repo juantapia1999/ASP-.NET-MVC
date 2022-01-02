@@ -1,0 +1,30 @@
+﻿@model prueba.Models.FormsViewModel.ProvinciaViewModel
+
+@{
+    ViewBag.Title = "Agregar Provincia";
+    List<prueba.Models.TableViewModel.PaisTableViewModel> listaPais = ViewBag.Paises;
+}
+
+<h2>@ViewBag.Title</h2>
+<div class="row">
+    <div class="col-md-12">
+        @using (Html.BeginForm("Add", "Provincia", FormMethod.Post, new { role = "form", @class = "" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationMessage("error", new { @class = "text-danger" })
+            @Html.LabelFor(d => d.Descripcion)
+            @Html.TextBoxFor(d => d.Descripcion, new { @class = "form-control" })
+            <span>@Html.ValidationMessage("Descripcion", new { @class = "text-danger" })</span><br />
+
+            <label for="PaisId">Pais</label>
+            <select class="form-control" name="PaisId" id="PaisId">
+                @foreach(var p in listaPais)
+                {
+                    <option value="@p.Id">@p.Descripcion</option>
+                }
+            </select>
+            <br />
+            <button class="btn btn-block btn-success" type="submit">Agregar</button>
+        }
+    </div>
+</div>

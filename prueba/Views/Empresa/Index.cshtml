@@ -1,0 +1,52 @@
+﻿@model List<prueba.Models.TableViewModel.EmpresaTableViewModel>
+@{
+    ViewBag.Title = "Lista Empresas";
+}
+
+<h2>@ViewBag.Title</h2>
+<hr />
+<button class="btn btn-primary btn-block" onclick="document.location.href='@Url.Content("~/Empresa/Add")'">Agregar Empresa</button>
+<hr />
+<table class="table table-bordered table-hover">
+    <thead style="color:white;background-color:black">
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Descripcion</th>
+            <th scope="col">Cuit</th>
+            <th scope="col">Razon Social</th>
+            <th scope="col">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th>@item.Id</th>
+                <td>@item.Descripcion</td>
+                <td>@item.Cuit</td>
+                <td>@item.DescripcionRazonSocial</td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-warning" onclick="document.location.href='@Url.Content("~/Empresa/Edit/"+item.Id)'">Editar</button>
+                        <button class="btn btn-danger" onclick="jsDelete(@item.Id)">Eliminar</button>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script>
+    function jsDelete(id) {
+        if (confirm("¿Esta seguro de querer eliminar?")) {
+            url = "@Url.Content("~/Empresa/Delete")" + "/" + id;
+            $.post(url, function (data) {
+                if (data == "1") {
+                    document.location.href = "@Url.Content("~/Empresa/")";
+                } else {
+                    alert("Ocurrio un error");
+                }
+            });
+        }
+    }
+</script>
+

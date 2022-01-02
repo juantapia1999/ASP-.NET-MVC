@@ -1,0 +1,46 @@
+﻿@model List<prueba.Models.TableViewModel.RazonSocialTableViewModel>
+@{
+    ViewBag.Title = "Lista de Razon Social";
+}
+<hr />
+<button class="btn btn-primary btn-block" onclick="document.location.href='@Url.Content("~/RazonSocial/Add")'">Agregar Razon Social</button>
+<hr />
+<table class="table table-bordered table-hover">
+    <thead style="color:white;background-color:black">
+        <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th>@item.Id</th>
+                <td>@item.Descripcion</td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-warning" onclick="document.location.href='@Url.Content("~/RazonSocial/Edit/"+item.Id)'">Editar</button>
+                        <button class="btn btn-danger" onclick="jsDelete(@item.Id)">Eliminar</button>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script>
+    function jsDelete(id) {
+        if (confirm("¿Esta seguro de querer eliminar?")) {
+            url = "@Url.Content("~/RazonSocial/Delete")" + "/" + id;
+
+            $.post(url, function (data) {
+                if (data == "1") {
+                    document.location.href = "@Url.Content("~/RazonSocial/")";
+                } else {
+                    alert("Ocurrio un error");
+                }
+            });
+        }
+    }
+</script>

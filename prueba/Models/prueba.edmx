@@ -1,0 +1,579 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="pruebaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Cliente">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Direccion" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Telefono" Type="float" Nullable="false" />
+          <Property Name="Dni" Type="float" Nullable="false" />
+          <Property Name="Apellido" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Activo" Type="bit" Nullable="false" />
+          <Property Name="PaisId" Type="int" Nullable="false" />
+          <Property Name="EmpresaId" Type="int" />
+        </EntityType>
+        <EntityType Name="Empresa">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Cuit" Type="float" Nullable="false" />
+          <Property Name="Activo" Type="bit" Nullable="false" />
+          <Property Name="RazonSocialId" Type="int" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Factura">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="Monto" Type="float" Nullable="false" />
+          <Property Name="Activo" Type="bit" Nullable="false" />
+          <Property Name="ClienteId" Type="int" Nullable="false" />
+          <Property Name="PaqueteId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Pais">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Activo" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Paquete">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Precio" Type="float" Nullable="false" />
+          <Property Name="CantDias" Type="int" Nullable="false" />
+          <Property Name="FechaViaje" Type="date" Nullable="false" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
+          <Property Name="Lugares" Type="int" Nullable="false" />
+          <Property Name="Activo" Type="bit" Nullable="false" />
+          <Property Name="PaisId" Type="int" Nullable="false" />
+          <Property Name="ProvinciaId" Type="int" Nullable="false" />
+          <Property Name="Nacional" Type="bit" Nullable="false" />
+          <Property Name="Cotizacion" Type="float" Nullable="false" />
+          <Property Name="Visa" Type="bit" Nullable="false" />
+          <Property Name="Impuesto" Type="float" Nullable="false" />
+          <Property Name="Cuotas" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Provincia">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Activo" Type="bit" Nullable="false" />
+          <Property Name="PaisId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RazonSocial">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Activo" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Cliente__Empresa__2EDAF651">
+          <End Role="Empresa" Type="Self.Empresa" Multiplicity="0..1" />
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresa">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Cliente">
+              <PropertyRef Name="EmpresaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Cliente__PaisId__2CF2ADDF">
+          <End Role="Pais" Type="Self.Pais" Multiplicity="1" />
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pais">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Cliente">
+              <PropertyRef Name="PaisId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Empresa__RazonSo__2A164134">
+          <End Role="RazonSocial" Type="Self.RazonSocial" Multiplicity="1" />
+          <End Role="Empresa" Type="Self.Empresa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RazonSocial">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Empresa">
+              <PropertyRef Name="RazonSocialId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Factura__Cliente__31B762FC">
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
+          <End Role="Factura" Type="Self.Factura" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Factura">
+              <PropertyRef Name="ClienteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Factura__Paquete__32AB8735">
+          <End Role="Paquete" Type="Self.Paquete" Multiplicity="1" />
+          <End Role="Factura" Type="Self.Factura" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paquete">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Factura">
+              <PropertyRef Name="PaqueteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Paquete__PaisId__2FCF1A8A">
+          <End Role="Pais" Type="Self.Pais" Multiplicity="1" />
+          <End Role="Paquete" Type="Self.Paquete" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pais">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Paquete">
+              <PropertyRef Name="PaisId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Paquete__Provinc__30C33EC3">
+          <End Role="Provincia" Type="Self.Provincia" Multiplicity="1" />
+          <End Role="Paquete" Type="Self.Paquete" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Provincia">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Paquete">
+              <PropertyRef Name="ProvinciaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Provincia__PaisI__2B0A656D">
+          <End Role="Pais" Type="Self.Pais" Multiplicity="1" />
+          <End Role="Provincia" Type="Self.Provincia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pais">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Provincia">
+              <PropertyRef Name="PaisId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="pruebaModelStoreContainer">
+          <EntitySet Name="Cliente" EntityType="Self.Cliente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Empresa" EntityType="Self.Empresa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Factura" EntityType="Self.Factura" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pais" EntityType="Self.Pais" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Paquete" EntityType="Self.Paquete" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Provincia" EntityType="Self.Provincia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RazonSocial" EntityType="Self.RazonSocial" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Cliente__Empresa__2EDAF651" Association="Self.FK__Cliente__Empresa__2EDAF651">
+            <End Role="Empresa" EntitySet="Empresa" />
+            <End Role="Cliente" EntitySet="Cliente" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Cliente__PaisId__2CF2ADDF" Association="Self.FK__Cliente__PaisId__2CF2ADDF">
+            <End Role="Pais" EntitySet="Pais" />
+            <End Role="Cliente" EntitySet="Cliente" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Empresa__RazonSo__2A164134" Association="Self.FK__Empresa__RazonSo__2A164134">
+            <End Role="RazonSocial" EntitySet="RazonSocial" />
+            <End Role="Empresa" EntitySet="Empresa" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Factura__Cliente__31B762FC" Association="Self.FK__Factura__Cliente__31B762FC">
+            <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Factura" EntitySet="Factura" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Factura__Paquete__32AB8735" Association="Self.FK__Factura__Paquete__32AB8735">
+            <End Role="Paquete" EntitySet="Paquete" />
+            <End Role="Factura" EntitySet="Factura" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Paquete__PaisId__2FCF1A8A" Association="Self.FK__Paquete__PaisId__2FCF1A8A">
+            <End Role="Pais" EntitySet="Pais" />
+            <End Role="Paquete" EntitySet="Paquete" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Paquete__Provinc__30C33EC3" Association="Self.FK__Paquete__Provinc__30C33EC3">
+            <End Role="Provincia" EntitySet="Provincia" />
+            <End Role="Paquete" EntitySet="Paquete" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Provincia__PaisI__2B0A656D" Association="Self.FK__Provincia__PaisI__2B0A656D">
+            <End Role="Pais" EntitySet="Pais" />
+            <End Role="Provincia" EntitySet="Provincia" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="pruebaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Cliente">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Direccion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Telefono" Type="Double" Nullable="false" />
+          <Property Name="Dni" Type="Double" Nullable="false" />
+          <Property Name="Apellido" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Activo" Type="Boolean" Nullable="false" />
+          <Property Name="PaisId" Type="Int32" Nullable="false" />
+          <Property Name="EmpresaId" Type="Int32" />
+          <NavigationProperty Name="Empresa" Relationship="Self.FK__Cliente__Empresa__2EDAF651" FromRole="Cliente" ToRole="Empresa" />
+          <NavigationProperty Name="Pais" Relationship="Self.FK__Cliente__PaisId__2CF2ADDF" FromRole="Cliente" ToRole="Pais" />
+          <NavigationProperty Name="Factura" Relationship="Self.FK__Factura__Cliente__31B762FC" FromRole="Cliente" ToRole="Factura" />
+        </EntityType>
+        <EntityType Name="Empresa">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cuit" Type="Double" Nullable="false" />
+          <Property Name="Activo" Type="Boolean" Nullable="false" />
+          <Property Name="RazonSocialId" Type="Int32" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Cliente" Relationship="Self.FK__Cliente__Empresa__2EDAF651" FromRole="Empresa" ToRole="Cliente" />
+          <NavigationProperty Name="RazonSocial" Relationship="Self.FK__Empresa__RazonSo__2A164134" FromRole="Empresa" ToRole="RazonSocial" />
+        </EntityType>
+        <EntityType Name="Factura">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Monto" Type="Double" Nullable="false" />
+          <Property Name="Activo" Type="Boolean" Nullable="false" />
+          <Property Name="ClienteId" Type="Int32" Nullable="false" />
+          <Property Name="PaqueteId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Cliente" Relationship="Self.FK__Factura__Cliente__31B762FC" FromRole="Factura" ToRole="Cliente" />
+          <NavigationProperty Name="Paquete" Relationship="Self.FK__Factura__Paquete__32AB8735" FromRole="Factura" ToRole="Paquete" />
+        </EntityType>
+        <EntityType Name="Pais">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Activo" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Cliente" Relationship="Self.FK__Cliente__PaisId__2CF2ADDF" FromRole="Pais" ToRole="Cliente" />
+          <NavigationProperty Name="Paquete" Relationship="Self.FK__Paquete__PaisId__2FCF1A8A" FromRole="Pais" ToRole="Paquete" />
+          <NavigationProperty Name="Provincia" Relationship="Self.FK__Provincia__PaisI__2B0A656D" FromRole="Pais" ToRole="Provincia" />
+        </EntityType>
+        <EntityType Name="Paquete">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Precio" Type="Double" Nullable="false" />
+          <Property Name="CantDias" Type="Int32" Nullable="false" />
+          <Property Name="FechaViaje" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <Property Name="Lugares" Type="Int32" Nullable="false" />
+          <Property Name="Activo" Type="Boolean" Nullable="false" />
+          <Property Name="PaisId" Type="Int32" Nullable="false" />
+          <Property Name="ProvinciaId" Type="Int32" Nullable="false" />
+          <Property Name="Nacional" Type="Boolean" Nullable="false" />
+          <Property Name="Cotizacion" Type="Double" Nullable="false" />
+          <Property Name="Visa" Type="Boolean" Nullable="false" />
+          <Property Name="Impuesto" Type="Double" Nullable="false" />
+          <Property Name="Cuotas" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Factura" Relationship="Self.FK__Factura__Paquete__32AB8735" FromRole="Paquete" ToRole="Factura" />
+          <NavigationProperty Name="Pais" Relationship="Self.FK__Paquete__PaisId__2FCF1A8A" FromRole="Paquete" ToRole="Pais" />
+          <NavigationProperty Name="Provincia" Relationship="Self.FK__Paquete__Provinc__30C33EC3" FromRole="Paquete" ToRole="Provincia" />
+        </EntityType>
+        <EntityType Name="Provincia">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Activo" Type="Boolean" Nullable="false" />
+          <Property Name="PaisId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Pais" Relationship="Self.FK__Provincia__PaisI__2B0A656D" FromRole="Provincia" ToRole="Pais" />
+          <NavigationProperty Name="Paquete" Relationship="Self.FK__Paquete__Provinc__30C33EC3" FromRole="Provincia" ToRole="Paquete" />
+        </EntityType>
+        <EntityType Name="RazonSocial">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Activo" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Empresa" Relationship="Self.FK__Empresa__RazonSo__2A164134" FromRole="RazonSocial" ToRole="Empresa" />
+        </EntityType>
+        <Association Name="FK__Cliente__Empresa__2EDAF651">
+          <End Role="Empresa" Type="Self.Empresa" Multiplicity="0..1" />
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresa">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Cliente">
+              <PropertyRef Name="EmpresaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Cliente__PaisId__2CF2ADDF">
+          <End Role="Pais" Type="Self.Pais" Multiplicity="1" />
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pais">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Cliente">
+              <PropertyRef Name="PaisId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Factura__Cliente__31B762FC">
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
+          <End Role="Factura" Type="Self.Factura" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Factura">
+              <PropertyRef Name="ClienteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Empresa__RazonSo__2A164134">
+          <End Role="RazonSocial" Type="Self.RazonSocial" Multiplicity="1" />
+          <End Role="Empresa" Type="Self.Empresa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RazonSocial">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Empresa">
+              <PropertyRef Name="RazonSocialId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Factura__Paquete__32AB8735">
+          <End Role="Paquete" Type="Self.Paquete" Multiplicity="1" />
+          <End Role="Factura" Type="Self.Factura" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paquete">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Factura">
+              <PropertyRef Name="PaqueteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Paquete__PaisId__2FCF1A8A">
+          <End Role="Pais" Type="Self.Pais" Multiplicity="1" />
+          <End Role="Paquete" Type="Self.Paquete" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pais">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Paquete">
+              <PropertyRef Name="PaisId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Provincia__PaisI__2B0A656D">
+          <End Role="Pais" Type="Self.Pais" Multiplicity="1" />
+          <End Role="Provincia" Type="Self.Provincia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pais">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Provincia">
+              <PropertyRef Name="PaisId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Paquete__Provinc__30C33EC3">
+          <End Role="Provincia" Type="Self.Provincia" Multiplicity="1" />
+          <End Role="Paquete" Type="Self.Paquete" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Provincia">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Paquete">
+              <PropertyRef Name="ProvinciaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="pruebaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Cliente" EntityType="Self.Cliente" />
+          <EntitySet Name="Empresa" EntityType="Self.Empresa" />
+          <EntitySet Name="Factura" EntityType="Self.Factura" />
+          <EntitySet Name="Pais" EntityType="Self.Pais" />
+          <EntitySet Name="Paquete" EntityType="Self.Paquete" />
+          <EntitySet Name="Provincia" EntityType="Self.Provincia" />
+          <EntitySet Name="RazonSocial" EntityType="Self.RazonSocial" />
+          <AssociationSet Name="FK__Cliente__Empresa__2EDAF651" Association="Self.FK__Cliente__Empresa__2EDAF651">
+            <End Role="Empresa" EntitySet="Empresa" />
+            <End Role="Cliente" EntitySet="Cliente" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Cliente__PaisId__2CF2ADDF" Association="Self.FK__Cliente__PaisId__2CF2ADDF">
+            <End Role="Pais" EntitySet="Pais" />
+            <End Role="Cliente" EntitySet="Cliente" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Factura__Cliente__31B762FC" Association="Self.FK__Factura__Cliente__31B762FC">
+            <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Factura" EntitySet="Factura" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Empresa__RazonSo__2A164134" Association="Self.FK__Empresa__RazonSo__2A164134">
+            <End Role="RazonSocial" EntitySet="RazonSocial" />
+            <End Role="Empresa" EntitySet="Empresa" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Factura__Paquete__32AB8735" Association="Self.FK__Factura__Paquete__32AB8735">
+            <End Role="Paquete" EntitySet="Paquete" />
+            <End Role="Factura" EntitySet="Factura" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Paquete__PaisId__2FCF1A8A" Association="Self.FK__Paquete__PaisId__2FCF1A8A">
+            <End Role="Pais" EntitySet="Pais" />
+            <End Role="Paquete" EntitySet="Paquete" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Provincia__PaisI__2B0A656D" Association="Self.FK__Provincia__PaisI__2B0A656D">
+            <End Role="Pais" EntitySet="Pais" />
+            <End Role="Provincia" EntitySet="Provincia" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Paquete__Provinc__30C33EC3" Association="Self.FK__Paquete__Provinc__30C33EC3">
+            <End Role="Provincia" EntitySet="Provincia" />
+            <End Role="Paquete" EntitySet="Paquete" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="pruebaModelStoreContainer" CdmEntityContainer="pruebaEntities">
+          <EntitySetMapping Name="Cliente">
+            <EntityTypeMapping TypeName="pruebaModel.Cliente">
+              <MappingFragment StoreEntitySet="Cliente">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Dni" ColumnName="Dni" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="PaisId" ColumnName="PaisId" />
+                <ScalarProperty Name="EmpresaId" ColumnName="EmpresaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Empresa">
+            <EntityTypeMapping TypeName="pruebaModel.Empresa">
+              <MappingFragment StoreEntitySet="Empresa">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Cuit" ColumnName="Cuit" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="RazonSocialId" ColumnName="RazonSocialId" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Factura">
+            <EntityTypeMapping TypeName="pruebaModel.Factura">
+              <MappingFragment StoreEntitySet="Factura">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Monto" ColumnName="Monto" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="ClienteId" ColumnName="ClienteId" />
+                <ScalarProperty Name="PaqueteId" ColumnName="PaqueteId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pais">
+            <EntityTypeMapping TypeName="pruebaModel.Pais">
+              <MappingFragment StoreEntitySet="Pais">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Paquete">
+            <EntityTypeMapping TypeName="pruebaModel.Paquete">
+              <MappingFragment StoreEntitySet="Paquete">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="CantDias" ColumnName="CantDias" />
+                <ScalarProperty Name="FechaViaje" ColumnName="FechaViaje" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Lugares" ColumnName="Lugares" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="PaisId" ColumnName="PaisId" />
+                <ScalarProperty Name="ProvinciaId" ColumnName="ProvinciaId" />
+                <ScalarProperty Name="Nacional" ColumnName="Nacional" />
+                <ScalarProperty Name="Cotizacion" ColumnName="Cotizacion" />
+                <ScalarProperty Name="Visa" ColumnName="Visa" />
+                <ScalarProperty Name="Impuesto" ColumnName="Impuesto" />
+                <ScalarProperty Name="Cuotas" ColumnName="Cuotas" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Provincia">
+            <EntityTypeMapping TypeName="pruebaModel.Provincia">
+              <MappingFragment StoreEntitySet="Provincia">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="PaisId" ColumnName="PaisId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RazonSocial">
+            <EntityTypeMapping TypeName="pruebaModel.RazonSocial">
+              <MappingFragment StoreEntitySet="RazonSocial">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
